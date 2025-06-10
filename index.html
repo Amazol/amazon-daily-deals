@@ -19,19 +19,9 @@
       margin-bottom: 20px;
     }
 
-    #search {
-      display: block;
-      width: 80%;
-      margin: 0 auto 20px;
-      padding: 10px;
-      font-size: 1em;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-    }
-
     nav {
       text-align: center;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
     }
 
     nav a {
@@ -45,21 +35,25 @@
       text-decoration: underline;
     }
 
-    .category {
-      margin-bottom: 40px;
+    .filters {
+      text-align: center;
+      margin-bottom: 30px;
     }
 
-    .category h2 {
-      color: #004085;
-      border-bottom: 2px solid #007bff;
-      padding-bottom: 5px;
+    .filters input,
+    .filters select {
+      padding: 10px;
+      margin: 0 10px;
+      font-size: 1em;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      width: 200px;
     }
 
     .products-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
       gap: 20px;
-      margin-top: 15px;
     }
 
     .product {
@@ -106,9 +100,14 @@
     <a href="how-to-buy.html">איך לקנות באמזון</a>
   </nav>
 
-  <input type="text" id="search" placeholder="חפש מוצר...">
+  <div class="filters">
+    <input type="text" id="search" placeholder="חפש מוצר...">
+    <select id="category-filter">
+      <option value="">כל הקטגוריות</option>
+    </select>
+  </div>
 
-  <div id="products-container"></div>
+  <div class="products-grid" id="products-container"></div>
 
   <script>
     let allProducts = [];
@@ -117,49 +116,52 @@
       const response = await fetch('daily-products.json');
       const products = await response.json();
       allProducts = products;
+      populateCategoryFilter(products);
       displayProducts(products);
+    }
+
+    function populateCategoryFilter(products) {
+      const select = document.getElementById('category-filter');
+      const categories = [...new Set(products.map(p => p.category))];
+      categories.forEach(cat => {
+        const option = document.createElement('option');
+        option.value = cat;
+        option.textContent = cat;
+        select.appendChild(option);
+      });
     }
 
     function displayProducts(products) {
       const container = document.getElementById('products-container');
       container.innerHTML = '';
 
-      const categories = [...new Set(products.map(p => p.category))];
-
-      categories.forEach(category => {
-        const catDiv = document.createElement('div');
-        catDiv.className = 'category';
-        catDiv.innerHTML = `<h2>${category}</h2>`;
-
-        const grid = document.createElement('div');
-        grid.className = 'products-grid';
-
-        products
-          .filter(p => p.category === category)
-          .forEach(product => {
-            const prod = document.createElement('div');
-            prod.className = 'product';
-            prod.innerHTML = `
-              <h3>${product.name}</h3>
-              <img src="${product.image}" alt="${product.name}" />
-              <p><a href="${product.affiliateLink}" target="_blank">לרכישה</a></p>
-            `;
-            grid.appendChild(prod);
-          });
-
-        catDiv.appendChild(grid);
-        container.appendChild(catDiv);
+      products.forEach(product => {
+        const prod = document.createElement('div');
+        prod.className = 'product';
+        prod.innerHTML = `
+          <h3>${product.name}</h3>
+          <img src="${product.image}" alt="${product.name}" />
+          <p><a href="${product.affiliateLink}" target="_blank">לרכישה</a></p>
+        `;
+        container.appendChild(prod);
       });
     }
 
-    document.getElementById('search').addEventListener('input', function() {
-      const query = this.value.toLowerCase();
-      const filtered = allProducts.filter(p =>
-        p.name.toLowerCase().includes(query) ||
-        p.category.toLowerCase().includes(query)
-      );
+    function filterProducts() {
+      const query = document.getElementById('search').value.toLowerCase();
+      const category = document.getElementById('category-filter').value;
+
+      const filtered = allProducts.filter(p => {
+        const matchesSearch = p.name.toLowerCase().includes(query);
+        const matchesCategory = category === '' || p.category === category;
+        return matchesSearch && matchesCategory;
+      });
+
       displayProducts(filtered);
-    });
+    }
+
+    document.getElementById('search').addEventListener('input', filterProducts);
+    document.getElementById('category-filter').addEventListener('change', filterProducts);
 
     loadProducts();
   </script>
