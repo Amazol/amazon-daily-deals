@@ -1,12 +1,21 @@
 [
   {
-    "name": "אוזניות אלחוטיות איכותיות",
-    "image": "https://amzn.to/3FQlGMW",
-    "affiliateLink": "https://m.media-amazon.com/images/I/81gzjOIMYzL._AC_SX679_.jpg"
+    "name": "גרבי טומי 10 זוגות",
+    "image": "https://m.media-amazon.com/images/I/71aTurrzOCL._AC_SX679_.jpg",
+    "affiliateLink": "https://amzn.to/3TiLGUg",
+    "category": "הלבשה"
   },
   {
-    "name": "בלנדר נינג'ה חזק",
-    "image": "https://m.media-amazon.com/images/I/81XiVIYzp9L._AC_SX679_.jpg",
-    "affiliateLink": "https://amzn.to/4kKHRTS"
+    "name": "ארנק לגבר Steeve Maden",
+    "image": "https://m.media-amazon.com/images/I/71t2wra4HyL._AC_SX569_.jpg",
+    "affiliateLink": "https://amzn.to/44798Kq",
+    "category": "אקססוריז לגבר"
+  },
+  {
+    "name": "Steve Madden חגורת עור יומיומית לגברים ליומיום",
+    "image": "https://m.media-amazon.com/images/I/71e0b5j7y3L._AC_SY695_.jpg",
+    "affiliateLink": "https://amzn.to/4dZuOeX",
+    "category": "אקססוריז לגבר"
   }
 ]
+
