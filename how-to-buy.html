@@ -9,9 +9,16 @@
       direction: rtl;
       font-family: 'Arial', sans-serif;
       background-color: #f9fcff;
-      padding: 20px;
       color: #333;
       line-height: 1.6;
+      padding: 40px 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      max-width: 850px;
+      width: 100%;
     }
 
     h1, h2 {
@@ -23,12 +30,15 @@
       background: #ffffff;
       border-radius: 12px;
       box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-      padding: 20px;
+      padding: 20px 25px;
       margin-bottom: 25px;
+      text-align: center;
     }
 
     ul {
-      padding-right: 20px;
+      padding-right: 0;
+      list-style-position: inside;
+      text-align: right;
     }
 
     li {
@@ -54,63 +64,78 @@
       border-right: 4px solid #0073e6;
       margin-top: 10px;
       border-radius: 8px;
+      text-align: right;
     }
   </style>
 </head>
 <body>
+  <div class="container">
+    <h1>איך קונים באמזון?</h1>
 
-  <h1>איך קונים באמזון?</h1>
+    <section>
+      <h2>1. הגדרת חשבון וכתובת בישראל</h2>
+      <ul>
+        <li>כנסו ל־<a href="https://amzn.to/3ZSPMpW" target="_blank">Amazon.com</a> והתחברו לחשבון (או פתחו חשבון חדש).</li>
+        <li>הוסיפו כתובת למשלוח בישראל בפרופיל שלכם.</li>
+        <li>לאחר הכנסת הכתובת, אמזון תציג <strong>רק מוצרים שניתן לשלוח לישראל</strong>.</li>
+      </ul>
+      <div class="note">
+        ✨ טיפ: הכנסת כתובת מראש חוסכת זמן ומונעת תסכול ממוצרים שלא נשלחים לישראל.
+      </div>
+    </section>
 
-  <section>
-    <h2>1. איך מחפשים מוצרים?</h2>
-    <ul>
-      <li>כנסו לאתר <a href="https://amzn.to/3ZSPMpW" target="_blank">Amazon.com</a>.</li>
-      <li>בתיבת החיפוש למעלה, הקלידו את שם המוצר באנגלית (לדוגמה: <em>wireless headphones</em>).</li>
-      <li>ניתן להשתמש במסננים בצד (כמו דירוג, מחיר, משלוח לישראל) כדי לצמצם תוצאות.</li>
-    </ul>
-    <div class="note">
-      📝 טיפ: חפשו מוצרים עם דירוג גבוה (4 כוכבים ומעלה) וביקורות רבות.
-    </div>
-  </section>
+    <section>
+      <h2>2. שינוי שפה ומטבע</h2>
+      <ul>
+        <li>בפינה העליונה של האתר, לחצו על סמל הגלובוס (🌐) או "Language".</li>
+        <li>בחרו <strong>עברית</strong> בתור שפה ו־<strong>ILS – שקל חדש</strong> בתור מטבע.</li>
+      </ul>
+      <div class="note">
+        🌍 אין צורך לחפש רק באנגלית – אפשר לחפש גם בעברית כששפת האתר היא עברית.
+      </div>
+    </section>
 
-  <section>
-    <h2>2. משלוח חינם לישראל</h2>
-    <ul>
-      <li>אמזון מציעה <strong>משלוח חינם לישראל</strong> בקנייה מעל <strong>49 דולר</strong>.</li>
-      <li>זה תקף רק למוצרים שמסומנים כ־<strong>“Ships to Israel”</strong> ובעלי תווית משלוח חינם.</li>
-      <li>הוסיפו מוצרים לעגלה — כשהעגלה כוללת מוצרים מתאימים מעל 49$, תקבלו משלוח חינם אוטומטי.</li>
-    </ul>
-    <div class="note">
-      ⚠️ שימו לב: אם אחד מהמוצרים בעגלה לא נשלח לישראל, יתכן שהמשלוח החינמי יתבטל.
-    </div>
-  </section>
+    <section>
+      <h2>3. איך מחפשים מוצרים?</h2>
+      <ul>
+        <li>בתיבת החיפוש, הקלידו את שם המוצר (בעברית או באנגלית).</li>
+        <li>השתמשו במסננים בצד כדי לבחור מוצרים עם משלוח לישראל.</li>
+        <li>העדיפו מוצרים עם דירוג גבוה וביקורות רבות.</li>
+      </ul>
+    </section>
 
-  <section>
-    <h2>3. איך מבצעים את ההזמנה?</h2>
-    <ul>
-      <li>בחרו את המוצר ולחצו על כפתור <strong>"Add to Cart"</strong>.</li>
-      <li>בסיום, לחצו על <strong>"Proceed to Checkout"</strong>.</li>
-      <li>הכניסו כתובת מלאה בישראל (כולל מיקוד בעברית או אנגלית).</li>
-      <li>בחרו אמצעי תשלום – לרוב כרטיס אשראי בינלאומי.</li>
-      <li>לחצו על <strong>"Place your order"</strong>.</li>
-    </ul>
-    <div class="note">
-      📦 זמן הגעה ממוצע: 7–14 ימי עסקים. תאריך ההגעה יוצג לפני התשלום.
-    </div>
-  </section>
+    <section>
+      <h2>4. משלוח חינם לישראל</h2>
+      <ul>
+        <li>אמזון מציעה <strong>משלוח חינם לישראל</strong> בקנייה מעל <strong>49 דולר</strong>.</li>
+        <li>זה תקף רק למוצרים עם תווית “<strong>Free Shipping to Israel</strong>”.</li>
+        <li>כדאי לבדוק שהמוצרים בעגלה עומדים בתנאים כדי לקבל את המשלוח החינמי.</li>
+      </ul>
+      <div class="note">
+        📌 שימו לב: מוצר אחד שלא עומד בתנאים עלול לבטל את כל ההטבה.
+      </div>
+    </section>
 
-  <section>
-    <h2>4. מיסים ותשלומים</h2>
-    <ul>
-      <li>אם הרכישה מעל 75$, ייתכן ואמזון תגבה מראש מע”מ ישראלי (17%).</li>
-      <li>אמזון מציינת את כל העלויות לפני התשלום — אין הפתעות.</li>
-      <li>במקרים רבים, אם לא נגבה מע”מ מראש, עלול להיגבות בארץ בעת המסירה.</li>
-    </ul>
-    <div class="note">
-      💡 אמזון מציעה החזר אוטומטי אם נגבו מסים מיותרים.
-    </div>
-  </section>
+    <section>
+      <h2>5. תהליך ההזמנה</h2>
+      <ul>
+        <li>הוסיפו מוצרים לעגלה ולחצו על <strong>"Proceed to Checkout"</strong>.</li>
+        <li>בדקו שהכתובת והמטבע נכונים.</li>
+        <li>בחרו אמצעי תשלום (כרטיס אשראי או PayPal).</li>
+        <li>לחצו על <strong>"Place your order"</strong> וסיימתם!</li>
+      </ul>
+    </section>
 
+    <section>
+      <h2>6. מיסים ותשלומים</h2>
+      <ul>
+        <li>בקנייה מעל 75 דולר ייגבו מע”מ (17%) מראש – אמזון תחשב ותציג זאת.</li>
+        <li>אם לא נגבה מראש – יתכן והחבילה תעוכב בארץ ותחויב עם קבלת המשלוח.</li>
+      </ul>
+      <div class="note">
+        💡 אמזון מחזירה כסף אוטומטית אם בסוף לא נגבה מס בפועל.
+      </div>
+    </section>
+  </div>
 </body>
 </html>
-
