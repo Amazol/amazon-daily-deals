@@ -10,7 +10,7 @@
       font-family: 'Arial', sans-serif;
       background: linear-gradient(to bottom, #f0f8ff, #e6f7ff);
       margin: 0;
-      padding: 0;
+      padding: 20px;
       color: #333;
     }
 
@@ -21,6 +21,7 @@
       color: white;
       font-size: 1.5em;
       font-weight: bold;
+      border-radius: 8px;
     }
 
     nav {
@@ -46,41 +47,41 @@
       border: 1px solid #ccc;
     }
 
-    .category-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-      margin: 20px auto;
+    .autocomplete-list {
+      position: absolute;
+      background: white;
+      border: 1px solid #ccc;
+      max-width: 500px;
+      margin: 0 auto;
+      z-index: 10;
+      direction: rtl;
+      font-size: 0.9em;
+      border-radius: 4px;
     }
 
-    .category-buttons button {
-      background-color: #0073e6;
-      color: white;
-      border: none;
-      padding: 10px 15px;
-      border-radius: 8px;
+    .autocomplete-item {
+      padding: 8px;
       cursor: pointer;
-      font-size: 1em;
     }
 
-    .category-buttons button:hover {
-      background-color: #005bb5;
+    .autocomplete-item:hover {
+      background-color: #f0f0f0;
     }
 
     .products-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
       gap: 20px;
-      padding: 20px;
+      margin-top: 30px;
     }
 
     .product {
+      background: white;
       border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
       padding: 15px;
       text-align: center;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      transition: transform 0.2s, background-color 0.3s;
+      transition: transform 0.2s;
       cursor: pointer;
     }
 
@@ -98,13 +99,6 @@
     .product h3 {
       margin: 10px 0;
     }
-
-    /* צבעים לפי קטגוריה */
-    .product.elektronika { background-color: #e3f2fd; }
-    .product.bayit { background-color: #e8f5e9; }
-    .product.briut { background-color: #fce4ec; }
-    .product.sefarim { background-color: #fff3e0; }
-    .product.default { background-color: #f1f8e9; }
   </style>
 </head>
 <body>
@@ -117,20 +111,20 @@
   </nav>
 
   <input type="text" id="search" placeholder="חפש מוצר...">
-  <input type="text" id="categorySearch" placeholder="חפש קטגוריה...">
-
-  <div class="category-buttons" id="categoryButtons"></div>
+  <input type="text" id="categorySearch" placeholder="סנן לפי קטגוריה..." autocomplete="off">
+  <div id="categorySuggestions" class="autocomplete-list" style="display:none;"></div>
 
   <div id="products-container" class="products-grid"></div>
 
   <script>
     let allProducts = [];
+    let allCategories = [];
 
     async function loadProducts() {
       const response = await fetch('daily-products.json');
       const products = await response.json();
       allProducts = products;
-      updateCategoryButtons(products);
+      allCategories = [...new Set(products.map(p => p.category))];
       displayProducts(products);
     }
 
@@ -140,7 +134,7 @@
 
       products.forEach(product => {
         const div = document.createElement('div');
-        div.className = `product ${getCategoryClass(product.category)}`;
+        div.className = 'product';
         div.innerHTML = `
           <h3>${product.name}</h3>
           <img src="${product.image}" alt="${product.name}">
@@ -152,31 +146,6 @@
       });
     }
 
-    function getCategoryClass(category) {
-      const cat = category.toLowerCase();
-      if (cat.includes('אלקטרוניקה')) return 'elektronika';
-      if (cat.includes('בית')) return 'bayit';
-      if (cat.includes('בריאות')) return 'briut';
-      if (cat.includes('ספרים')) return 'sefarim';
-      return 'default';
-    }
-
-    function updateCategoryButtons(products) {
-      const categories = [...new Set(products.map(p => p.category))];
-      const container = document.getElementById('categoryButtons');
-      container.innerHTML = '';
-
-      categories.forEach(category => {
-        const btn = document.createElement('button');
-        btn.textContent = category;
-        btn.addEventListener('click', () => {
-          const filtered = allProducts.filter(p => p.category === category);
-          displayProducts(filtered);
-        });
-        container.appendChild(btn);
-      });
-    }
-
     document.getElementById('search').addEventListener('input', function () {
       const query = this.value.toLowerCase();
       const filtered = allProducts.filter(p =>
@@ -185,12 +154,41 @@
       displayProducts(filtered);
     });
 
-    document.getElementById('categorySearch').addEventListener('input', function () {
+    const catInput = document.getElementById('categorySearch');
+    const suggestionsBox = document.getElementById('categorySuggestions');
+
+    catInput.addEventListener('input', function () {
       const query = this.value.toLowerCase();
-      const filtered = allProducts.filter(p =>
-        p.category.toLowerCase().includes(query)
-      );
-      displayProducts(filtered);
+      const matches = allCategories.filter(cat => cat.toLowerCase().includes(query));
+      if (matches.length === 0 || query === '') {
+        suggestionsBox.style.display = 'none';
+        return;
+      }
+
+      suggestionsBox.innerHTML = '';
+      suggestionsBox.style.display = 'block';
+      suggestionsBox.style.left = catInput.getBoundingClientRect().left + 'px';
+      suggestionsBox.style.top = (catInput.getBoundingClientRect().bottom + window.scrollY) + 'px';
+      suggestionsBox.style.width = catInput.offsetWidth + 'px';
+
+      matches.forEach(match => {
+        const item = document.createElement('div');
+        item.className = 'autocomplete-item';
+        item.textContent = match;
+        item.addEventListener('click', () => {
+          catInput.value = match;
+          suggestionsBox.style.display = 'none';
+          const filtered = allProducts.filter(p => p.category === match);
+          displayProducts(filtered);
+        });
+        suggestionsBox.appendChild(item);
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!suggestionsBox.contains(e.target) && e.target !== catInput) {
+        suggestionsBox.style.display = 'none';
+      }
     });
 
     loadProducts();
