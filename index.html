@@ -135,8 +135,8 @@
   
   // המידע על השורות נמצא במפתחות rows
   const rows = json.table.rows;
-  const products = rows.map(row => {
-    const c = row.c;
+ const products = rows.slice(1).map(row => {
+   const c = row.c;
     return {
       name: c[0] ? c[0].v : '',
       category: c[3] ? c[3].v : '',
