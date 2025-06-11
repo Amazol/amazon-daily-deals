@@ -139,9 +139,9 @@
     const c = row.c;
     return {
       name: c[0] ? c[0].v : '',
-      category: c[1] ? c[1].v : '',
+      category: c[3] ? c[3].v : '',
       image: c[2] ? c[2].v : '',
-      affiliateLink: c[3] ? c[3].v : ''
+      affiliateLink: c[1] ? c[3].v : ''
     };
   });
 
