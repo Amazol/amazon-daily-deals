@@ -121,12 +121,35 @@
     let allCategories = [];
 
     async function loadProducts() {
-      const response = await fetch('daily-products.json');
-      const products = await response.json();
-      allProducts = products;
-      allCategories = [...new Set(products.map(p => p.category))];
-      displayProducts(products);
-    }
+  const sheetId = '1L-5Ae7dGbXTjnI2uGcsAtO9l-TDh9SSKVLUs9wucwgo'; // מזהה הגיליון שלך
+  const sheetName = 'Products'; // שם הגיליון או טאב ספציפי, שנה לפי הצורך
+  
+  // כתובת URL לקריאת הגיליון כ-CSV דרך Google Sheets
+  const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${sheetName}`;
+  
+  const response = await fetch(url);
+  const text = await response.text();
+  
+  // הגיליון מחזיר JSON עם עטיפה, צריך לחלץ את החלק הפנימי
+  const json = JSON.parse(text.substring(47, text.length - 2));
+  
+  // המידע על השורות נמצא במפתחות rows
+  const rows = json.table.rows;
+  const products = rows.map(row => {
+    const c = row.c;
+    return {
+      name: c[0] ? c[0].v : '',
+      category: c[1] ? c[1].v : '',
+      image: c[2] ? c[2].v : '',
+      affiliateLink: c[3] ? c[3].v : ''
+    };
+  });
+
+  allProducts = products;
+  allCategories = [...new Set(products.map(p => p.category))];
+  displayProducts(products);
+}
+
 
     function displayProducts(products) {
       const container = document.getElementById('products-container');
